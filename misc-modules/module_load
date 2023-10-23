@@ -21,8 +21,10 @@ else
     group="wheel"
 fi
 
-echo "Load our module, exit on failure"
-insmod ./$module.ko $* || exit 1
+echo "Load our module with modprobe, exit on failure"
+# source introduction to device drivers lecture & https://askubuntu.com/questions/20070/whats-the-difference-between-insmod-and-modprobe 
+# swap to modprobe with module name and not path and it will sort out the location of dependancies and I dont have to put ko as it already looks for it
+modprobe $module $* || exit 1
 echo "Get the major number (allocated with allocate_chrdev_region) from /proc/devices"
 major=$(awk "\$2==\"$module\" {print \$1}" /proc/devices)
 if [ ! -z ${major} ]; then

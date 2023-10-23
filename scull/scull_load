@@ -12,8 +12,8 @@ else
 fi
 
 # invoke insmod with all arguments we got
-# and use a pathname, as insmod doesn't look in . by default
-insmod ./$module.ko $* || exit 1
+# and us modprobe with module name and not path and it will sort out the location of dependancies
+modprobe $module $* || exit 1
 
 # retrieve major number
 major=$(awk "\$2==\"$module\" {print \$1}" /proc/devices)
